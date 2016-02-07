@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hexagonia</title>
+  <script type="text/javascript" src="js/phaser.min.js"></script>
+  <style type="text/css">
+    body { margin: 0; padding: 0 }
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(1200, 600, Phaser.AUTO, '', {
+  preload: preload, create: create, update: update
+});
+
+var hexagonWidth = 100;
+var hexagonHeight = 86;
+var ballRadius = 20;
+
+var GRID_WIDTH_OFFSET = 100;
+var GRID_HEIGHT_OFFSET = 100;
+var EVEN_ROW_X_OFFSET = 40;
+
+var gridSizeX = 12;
+var gridSizeY = 5;
+
+var hexagonGroup;
+
+function preload() {
+  game.load.image("hexagon", "assets/hexagon.png");
+  game.load.image("ball", "assets/ball.png");
+  game.load.image("barrier", "assets/barrier.png");
+  game.load.image("barrel", "assets/barrel.png");
+}
+
+function create() {
+  game.state.backgroundColor = "#0d1f98";
+  game.physics.startSystem(Phaser.Physics.arcade);
+  game.physics.arcade.restitution = 0.8;
+
+  hexagonGroup = game.add.group();
+
+  var hexagonX, hexagonY, hexagon;
+  for (var row=0; row < gridSizeY; row++) {
+		for (var col=0; col < gridSizeX; col++) {
+      if (row%2==0 && col==gridSizeX-1) { continue; }
+      if (row%2==0) {
+        hexagonX = hexagonWidth*col*(6/7) + EVEN_ROW_X_OFFSET;
+      } else {
+        hexagonX = hexagonWidth*col*(6/7);
+      }
+      hexagonX += GRID_WIDTH_OFFSET;
+      hexagonY = hexagonHeight*row*(6/7) + GRID_HEIGHT_OFFSET;
+      hexagon = game.add.sprite(hexagonX,hexagonY,"hexagon");
+      hexagonGroup.add(hexagon);
+		}
+	}
+
+  barrel = game.add.sprite(600, 530, "barrel");
+  ball = game.add.sprite(300, GRID_HEIGHT_OFFSET - ballRadius, "ball");
+
+  game.physics.arcade.enable([hexagonGroup, ball]);
+  ball.body.gravity.y = 100;
+  ball.body.bounce = 50;
+
+}
+
+function update() {
+}
+</script>
+</body>
+</html>
