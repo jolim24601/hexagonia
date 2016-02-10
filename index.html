@@ -2,123 +2,15 @@
 <html>
 <head>
   <meta charset='utf-8'>
-  <title>Hexagonia</title>
+  <title>Hexscape!</title>
   <script type='text/javascript' src='js/phaser.min.js'></script>
   <style type='text/css'>
     body { margin: 0 }
   </style>
 </head>
 <body>
-
-<script type='text/javascript'>
-  (function() {
-
-  })();
-
-var game = new Phaser.Game(1200, 600, Phaser.AUTO, '', {
-  preload: preload, create: create, update: update
-});
-
-var hexagonWidth = 100;
-var hexagonHeight = 86;
-var ballRadius = 20;
-
-var GRID_WIDTH_OFFSET = 100;
-var GRID_HEIGHT_OFFSET = 100;
-var EVEN_ROW_X_OFFSET = 43;
-
-var gridSizeX = 12;
-var gridSizeY = 5;
-
-var hexagonGroup;
-
-function preload() {
-  game.load.image('hexagon', 'assets/hexagon.png');
-  game.load.image('ball', 'assets/ball.png');
-  game.load.image('wormhole', 'assets/wormhole.png');
-  game.load.physics('sprite_physics', 'assets/sprite_physics.json');
-}
-
-function create() {
-  game.state.backgroundColor = '#0d1f98';
-  game.physics.startSystem(Phaser.Physics.P2JS);
-  game.physics.p2.setImpactEvents(true);
-  game.physics.p2.restitution = 1/2;
-  game.physics.p2.gravity.y = 300;
-
-  ballCollisionGroup = game.physics.p2.createCollisionGroup();
-  hexCollisionGroup = game.physics.p2.createCollisionGroup();
-  goalCollisionGroup = game.physics.p2.createCollisionGroup();
-
-  hexagonGroup = game.add.group();
-  hexagonGroup.physicsBodyType = Phaser.Physics.P2JS;
-
-  var hexagonX, hexagonY, hexagon;
-  for (var row=0; row < gridSizeY; row++) {
-		for (var col=0; col < gridSizeX; col++) {
-      if (row%2==0 && col==gridSizeX-1) { continue; }
-      if (row%2==0) {
-        hexagonX = hexagonWidth*col*(6/7) + EVEN_ROW_X_OFFSET;
-      } else {
-        hexagonX = hexagonWidth*col*(6/7);
-      }
-      hexagonX += GRID_WIDTH_OFFSET;
-      hexagonY = hexagonHeight*row*(7/8) + GRID_HEIGHT_OFFSET;
-      hexagon = game.add.sprite(hexagonX,hexagonY,'hexagon');
-      game.physics.p2.enable(hexagon, false);
-      hexagonGroup.add(hexagon);
-		}
-	}
-
-  hexagonGroup.forEach(function (hex) {
-    hex.body.clearShapes();
-    hex.body.loadPolygon('sprite_physics', 'hexagon');
-    hex.body.static = true;
-    hex.body.setCollisionGroup(hexCollisionGroup);
-    hex.body.collides(ballCollisionGroup);
-
-    hex.inputEnabled = true;
-    hex.events.onInputDown.add(click, this);
-  });
-
-  wormhole = game.add.sprite(600, 600, 'wormhole');
-  game.physics.p2.enable(wormhole, true);
-  wormhole.body.clearShapes();
-  wormhole.body.loadPolygon('sprite_physics', 'wormhole');
-  wormhole.body.static = true;
-  wormhole.body.setCollisionGroup(goalCollisionGroup);
-  wormhole.body.collides(ballCollisionGroup);
-
-  ball = game.add.sprite(300, 0, 'ball');
-  game.physics.p2.enable(ball, true);
-  ball.body.setCircle(20);
-  ball.body.setCollisionGroup(ballCollisionGroup);
-  ball.body.collides(hexCollisionGroup);
-  ball.body.collides(goalCollisionGroup, isWon, this);
-
-  ball.checkWorldBounds = true;
-  ball.events.onOutOfBounds.add(gameOver, this);
-}
-
-function click(hexagon) {
-  hexagon.kill();
-}
-
-function gameOver(ball) {
-  alert('You lost!');
-}
-
-function isWon(ball, goal) {
-  if (ball.x >= goal.x - (wormhole.width / 2)
-      && ball.x <= goal.x + (wormhole.width / 2)
-      && ball.y >= 480) {
-    alert('You won!');
-  }
-}
-
-function update() {
-}
-
-</script>
+  <script src='lib/levelselect.js'></script>
+  <script src='lib/main.js'></script>
+  <script src='lib/game.js'></script>
 </body>
 </html>
