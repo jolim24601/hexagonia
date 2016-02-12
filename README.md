@@ -1,4 +1,4 @@
-[Play Live](http://jolim24601.github.io/hexscape/)
+[Play](http://jolim24601.github.io/hexscape/)
 
 #About
 
@@ -9,4 +9,4 @@ the level under a certain amount of attempts!
 
 #Screenshot
 
-![Gameplay](/assets/screenshot2.png)
+![Screenshot](/assets/screenshot2.png)
