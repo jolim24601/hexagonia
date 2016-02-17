@@ -1,6 +1,5 @@
-[Play](http://jolim24601.github.io/hexscape/)
-
 #About
+[Play](http://jolim24601.github.io/hexscape/)
 
 Hexscape is a physics puzzle game built with Phaser and HTML5 Canvas.
 Players must usher the ball into the gravity portal by removing hexagons.
