@@ -8,4 +8,4 @@ the level under a certain amount of attempts!
 
 #Screenshot
 
-![Screenshot](/assets/screenshot2.png)
+[![Screenshot](/assets/screenshot2.png)](http://jolim24601.github.io/hexscape/)
